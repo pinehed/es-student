@@ -1,0 +1,53 @@
+// добавляем заголовочный файл функций ввода-вывода
+#include "pico/stdlib.h"
+// добавляем заголовочный файл функций работы с GPIO
+#include "hardware/gpio.h"
+
+
+// объявляем константы
+
+
+const uint LED_PIN = 25; //создаем константу ВЫВЫДА?! типа uint 
+const uint BUTTON_PIN = 15;  // объявляем константу вывода светодиода
+
+//функцию, которая читает вывод устойчиво: 
+//«уровень считается высоким, только если он высок сейчас и всё ещё высок через двадцать миллисекунд». В любом другом случае функция вернёт `false`.
+const uint DEBOUNCE_MS = 20; //константа задержки
+bool get_button_debounce(uint pin)
+{
+    bool state = gpio_get(pin);
+    sleep_ms(DEBOUNCE_MS);
+    return state && gpio_get(pin);
+}
+
+
+int main()
+{   // инициализируем пин светодиода
+    // настраиваем пин светодиода на выход
+    gpio_init(LED_PIN); //Инициализируем. Но не обязательно всё иниц. из того,что есть на плате
+    gpio_set_dir(LED_PIN, GPIO_OUT);//25 пин работает на выход  (аут): подает ток - светодиол мигает
+    
+    gpio_init(BUTTON_PIN);
+    gpio_set_dir(BUTTON_PIN, GPIO_IN);//`GPIO_IN`:микроконтроллер будет напряжение считывать, а не выдавать.
+    gpio_pull_up(BUTTON_PIN); // `gpio_pull_up()` включает подтягивающий резистор, из-за которого отпущенная кнопка читается как `true`.
+
+
+    
+    //задать 2переменных типа булевая (Да\нет).
+    bool led = false; // Светит ли светодиод. 
+    bool previous = false;//что вывод показал на прошлом шаге цикла
+    
+    while (1)
+    {
+        bool current = get_button_debounce(BUTTON_PIN);      // читаем состояние пина кнопки с задержкой
+
+        if (previous == true && current == false)
+        {
+            led = !led;
+            gpio_put(LED_PIN, led);
+        }
+
+        previous = current;
+    }
+    
+}
