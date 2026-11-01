@@ -3,6 +3,9 @@
 // добавляем заголовочный файл функций работы с GPIO
 #include "hardware/gpio.h"
 
+#include <stdio.h>
+#include "pico/stdlib.h" //инициализирует функции
+
 
 // объявляем константы
 
