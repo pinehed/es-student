@@ -4,7 +4,7 @@
 #include "hardware/gpio.h"
 
 #include <stdio.h>
-#include "pico/stdlib.h" //инициализирует функции
+
 
 
 // объявляем константы
