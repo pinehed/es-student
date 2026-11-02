@@ -9,7 +9,7 @@
 #include "led.h"
 
 
-const uint BUTTON_PIN = 15;  // объявляем константу вывода светодиода
+const uint BUTTON_PIN = 15;  
 const uint DEBOUNCE_MS = 20; //константа задержки
 
 

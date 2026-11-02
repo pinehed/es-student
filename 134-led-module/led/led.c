@@ -8,6 +8,8 @@ static bool led_state = false;
 void led_init(void)
 {
     // инициализируем пин светодиода и настраиваем его на выход
+    gpio_init(LED_PIN); //Инициализируем. Но не обязательно всё иниц. из того,что есть на плате
+    gpio_set_dir(LED_PIN, GPIO_OUT);//25 пин работает на выход  (аут): подает ток - светодиол мигает
     led_set(false);
 }
 
@@ -26,3 +28,5 @@ bool led_is_on(void)
 {
     return led_state;
 }
+
+
