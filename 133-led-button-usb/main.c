@@ -13,6 +13,7 @@
 const uint LED_PIN = 25; //создаем константу ВЫВЫДА?! типа uint 
 const uint BUTTON_PIN = 15;  // объявляем константу вывода светодиода
 const uint DEBOUNCE_MS = 20; //константа задержки
+
 //функцию, которая читает вывод устойчиво: 
 //«уровень считается высоким, только если он высок сейчас и всё ещё высок через двадцать миллисекунд». В любом другом случае функция вернёт `false`.
 
@@ -28,6 +29,28 @@ void set_led(bool on)
     gpio_put(LED_PIN, on);
     printf("led %s\n", on ? "on" : "off");
 }
+
+//Функция получает пришедший символ и текущее состояние светодиода, а возвращает новое. Если команда была — изменённое, если нет — то же самое. 
+bool handle_command(int command, bool led)
+{
+    if (command == 'e')
+    {
+        led = true;
+        set_led(led);
+    }
+    else if (command == 'd')
+    {
+        led = false;
+        set_led(led);
+    }
+    else
+    {
+        printf("unknown command: %c\n", command);
+    }
+
+    return led;
+}
+
 
 
 int main()
@@ -62,8 +85,23 @@ int main()
             set_led(led);
 
         }
-        // запоминаем текущее состояние пина кнопки, как предыдущее
+        
+        // запоминаем текущее состояние пина кнопки как предыдущее.
+        // Стоит здесь - перед command. Иначе кнопка не работает, а только терминал
         previous = current;
+
+        //прочесть символ - команду с терминала:
+        int command = getchar_timeout_us(0); //Ноль в аргументе функции означает не ждать вовсе. Если символ пришёл, функция возвращает его код, если нет — значение `PICO_ERROR_TIMEOUT`
+        if (command == PICO_ERROR_TIMEOUT)
+        {
+            continue;
+        }
+
+        led = handle_command(command, led);
+ 
+
+
+
     }
     
 }
