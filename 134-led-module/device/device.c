@@ -24,9 +24,10 @@ void device_info(void)
     uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
 
     // печатаем пять строк паспорта
-    void log_version(void)
-{
-    printf("device: %s %s, built %s %s, log level %d\n",
-           DEVICE_NAME, FIRMWARE_VERSION, __DATE__, __TIME__, LOG_LEVEL);
-}
+    printf("project: %s\n", DEVICE_PROJECT);
+    printf("repo: %s\n", DEVICE_REPO);
+    printf("board: %s\n", DEVICE_BOARD);
+    printf("serial: %s\n", board_id);
+    printf("chip: manufacturer 0x%03x, part 0x%04x, revision %u\n", manufacturer, part, revision);
+
 }

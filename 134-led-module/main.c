@@ -8,7 +8,7 @@
 
 #include "led.h"
 #include "log.h"
-//#include "device.h"
+#include "device.h"
 
 
 const uint BUTTON_PIN = 15;  
@@ -38,6 +38,10 @@ void handle_command(int command)
     else if (command == 'v')
     {
         log_version(); //печатает строку версии. log 
+    }
+        else if (command == 'i')
+    {
+        device_info(); // <~ device
     }
     else
     {
