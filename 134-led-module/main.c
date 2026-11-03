@@ -28,22 +28,23 @@ void handle_command(int command)
     if (command == 'e')
     {
         led_set(true);
-        LOG_INF();
+        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
     }
     else if (command == 'd')
     {
         led_set(false);
-        LOG_INF();
+        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
     }
-    else
-    {
-        LOG_ERR();
-    }
-
-        else if (command == 'v')
+    else if (command == 'v')
     {
         log_version(); //печатает строку версии. log 
     }
+    else
+    {
+        LOG_ERR("unknown command: %c\n", command);
+    }
+
+    
 }
 
 int main()
@@ -70,7 +71,7 @@ int main()
         if (previous == true && current == false)
         {
             led_toggle();
-            LOG_INF();
+            LOG_INF("led %s\n", led_is_on() ? "on" : "off");
         }
 
         // запоминаем текущее состояние пина кнопки, как предыдущее

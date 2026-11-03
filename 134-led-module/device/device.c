@@ -1,7 +1,7 @@
 // device.c
 
 #include "device.h"
-
+#include "log.h" 
 #include <stdio.h>
 #include "pico/unique_id.h"
 #include "hardware/regs/addressmap.h"
@@ -20,6 +20,8 @@ void device_info(void)
     uint32_t id = *chip_id;
 
     uint32_t manufacturer = (id & SYSINFO_CHIP_ID_MANUFACTURER_BITS) >> SYSINFO_CHIP_ID_MANUFACTURER_LSB;
+    uint32_t part = (id & SYSINFO_CHIP_ID_PART_BITS) >> SYSINFO_CHIP_ID_PART_LSB;
+    uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
 
     // печатаем пять строк паспорта
     void log_version(void)

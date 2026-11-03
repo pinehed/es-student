@@ -26,7 +26,7 @@ void log_prefix(const char *level, const char *function, int line);
         {                                           \
             log_prefix("inf", __func__, __LINE__);  \
             printf(__VA_ARGS__);                    \
-            
+        }                                           \
     } while (0)
 
 #define LOG_ERR(...)                                \
