@@ -7,6 +7,8 @@
 #include <stdio.h>
 
 #include "led.h"
+#include "log.h"
+//#include "device.h"
 
 
 const uint BUTTON_PIN = 15;  
@@ -26,16 +28,21 @@ void handle_command(int command)
     if (command == 'e')
     {
         led_set(true);
-        printf("led %s\n", led_is_on() ? "on" : "off");
+        LOG_INF();
     }
     else if (command == 'd')
     {
         led_set(false);
-        printf("led %s\n", led_is_on() ? "on" : "off");
+        LOG_INF();
     }
     else
     {
-        printf("unknown command: %c\n", command);
+        LOG_ERR();
+    }
+
+        else if (command == 'v')
+    {
+        log_version(); //печатает строку версии. log 
     }
 }
 
@@ -63,7 +70,7 @@ int main()
         if (previous == true && current == false)
         {
             led_toggle();
-            printf("led %s\n", led_is_on() ? "on" : "off");
+            LOG_INF();
         }
 
         // запоминаем текущее состояние пина кнопки, как предыдущее
@@ -76,6 +83,7 @@ int main()
             continue;
         }
 
+        LOG_DBG("got %c\n", command);
         handle_command(command);
     }
 }
