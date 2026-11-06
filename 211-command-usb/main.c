@@ -5,10 +5,13 @@
 #include "hardware/gpio.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "led.h"
 #include "log.h"
 #include "device.h"
+
+
 
 
 const uint BUTTON_PIN = 15;  
