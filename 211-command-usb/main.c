@@ -30,6 +30,35 @@ bool get_button_debounce(uint pin)
     return state && gpio_get(pin);
 }
 
+void handle_command(const char *command)
+{
+    if (strcmp(command, "enable") == 0)
+    {
+        // включаем светодиод и сообщаем новое состояние
+        led_set(true);
+        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
+    }
+    else if (strcmp(command, "disable") == 0)
+    {
+        // выключаем светодиод и сообщаем новое состояние
+        led_set(false);
+        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
+    }
+    else if (strcmp(command, "info") == 0)
+    {
+        // печатаем паспорт устройства
+        device_info();
+    }
+    else if (strcmp(command, "version") == 0)
+    {
+        // печатаем строку журнала о версии прошивки
+        log_version(); 
+    }
+    else
+    {
+        LOG_ERR("unknown command: %s\n", command);
+    }
+}
 
 
 //функция: сбор строки из символов
@@ -65,38 +94,6 @@ void read_line(void)
     }
 }
 
-void handle_command(const char *command)
-{
-    if (strcmp(command, "enable") == 0)
-    {
-        // включаем светодиод и сообщаем новое состояние
-        led_set(true);
-        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-    }
-    else if (strcmp(command, "disable") == 0)
-    {
-        // выключаем светодиод и сообщаем новое состояние
-        led_set(false);
-        LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-    }
-    else if (strcmp(command, "info") == 0)
-    {
-        // печатаем паспорт устройства
-        device_info();
-    }
-    else if (strcmp(command, "version") == 0)
-    {
-        // печатаем строку журнала о версии прошивки
-        log_version(); 
-    }
-    else
-    {
-        LOG_ERR("unknown command: %s\n", command);
-    }
-}
-
-
-
 
 int main()
 {
@@ -128,14 +125,6 @@ int main()
         // запоминаем текущее состояние пина кнопки, как предыдущее
         previous = current;
         
-        int command = getchar_timeout_us(0);
-
-        if (command == PICO_ERROR_TIMEOUT)
-        {
-            continue;
-        }
-
-        LOG_DBG("got %c\n", command);
-        handle_command(command);
+        read_line();
     }
 }

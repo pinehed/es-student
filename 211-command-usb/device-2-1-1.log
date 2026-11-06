@@ -3,9 +3,26 @@
 устройство: 2e8a:000a
 серийный номер: 5303284748D5599C
 порт: /dev/ttyACM0
-начало: 2026-11-06T13:41:33
-   0.305 --> enable
-   2.321 --> disable
-   4.337 --> info
-   6.353 --> nosuchcommand
-итог: отправлено команд 4, принято строк 0
+начало: 2026-11-06T15:45:07
+   0.003 --> enable
+   0.122 <-- enable
+   0.122 <-- dbg read_line:81 got enable
+   0.123 <-- inf handle_command:39 led on
+   2.125 --> disable
+   2.283 <-- disable
+   2.283 <-- dbg read_line:81 got disable
+   2.284 <-- inf handle_command:45 led off
+   4.287 --> info
+   4.383 <-- info
+   4.384 <-- dbg read_line:81 got info
+   4.387 <-- project: 211-command-usb
+   4.388 <-- repo: https://github.com/pinehed/es-student
+   4.388 <-- board: pico
+   4.388 <-- serial: 5303284748D5599C
+   4.389 <-- chip: manufacturer 0x927, part 0x0002, revision 2
+   4.389 <-- pico-sdk: 2.3.0
+   6.392 --> nosuchcommand
+   6.664 <-- nosuchcommand
+   6.666 <-- dbg read_line:81 got nosuchcommand
+   6.667 <-- err handle_command:59 unknown command: nosuchcommand
+итог: отправлено команд 4, принято строк 17
