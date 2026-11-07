@@ -32,13 +32,16 @@ void mem_info(void)
     // шапка таблицы: область, начало, конец, размер
 
     // flash — XIP_BASE и PICO_FLASH_SIZE_BYTES
+    row("flash", (uintptr_t)XIP_BASE, (uintptr_t)(XIP_BASE+PICO_FLASH_SIZE_BYTES));
     // sram — базовый адрес из SDK, размер из datasheet
+    row("sram", (uintptr_t)SRAM_BASE, (uintptr_t)SRAM_END);
     // rom — базовый адрес из SDK, размер из datasheet
+    row("row", (uintptr_t)ROM_BASE, (uintptr_t)(ROM_BASE+0x4000));
 
     // image — от __flash_binary_start до __flash_binary_end
     row("image", (uintptr_t)&__flash_binary_start, (uintptr_t)&__flash_binary_end);
     // free  — от __flash_binary_end до конца флеш-памяти
-    row("free", (uintptr_t)&__flash_binary_end, (uintptr_t)&__flash_binary_end);
+    row("free", (uintptr_t)&__flash_binary_end, (uintptr_t)&__flash_binary_end); //!!!
     // boot2 — от __boot2_start__ до __boot2_end__
     row("boot2", (uintptr_t)& __boot2_start__(uintptr_t)&__boot2_end__);
     // text  — от __boot2_end__ до __etext: код и константы
