@@ -41,7 +41,7 @@ void mem_info(void)
     // image — от __flash_binary_start до __flash_binary_end
     row("image", (uintptr_t)&__flash_binary_start, (uintptr_t)&__flash_binary_end);
     // free  — от __flash_binary_end до конца флеш-памяти
-    row("free", (uintptr_t)&__flash_binary_end, (uintptr_t)&__flash_binary_end); //!!!
+    row("free", (uintptr_t)&__flash_binary_end, (uintptr_t)(XIP_BASE+PICO_FLASH_SIZE_BYTES); //!!!
     // boot2 — от __boot2_start__ до __boot2_end__
     row("boot2", (uintptr_t)& __boot2_start__(uintptr_t)&__boot2_end__);
     // text  — от __boot2_end__ до __etext: код и константы
@@ -58,7 +58,34 @@ void mem_info(void)
     row("stack", (uintptr_t)&__StackBottom (uintptr_t)&__StackTop);
 
     // итог: образ во флеш и из чего он сложился
+    printf("%s %8u", "flash image",   (unsigned)((uintptr_t)&__boot2_end__-(uintptr_t)& __boot2_start__)+
+                             (unsigned)((uintptr_t)&__etext- (uintptr_t)&__boot2_end__ )+
+                             (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ) );
+
+    printf("%s %8u",  " = boot2",  (unsigned)((uintptr_t)&__boot2_end__-(uintptr_t)& __boot2_start__));
+    printf("%s %8u", "+ text",  (unsigned)((uintptr_t)&__etext- (uintptr_t)&__boot2_end__ )) ;
+    printf("%s %8u\n", "+ data",  (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ));  
+    
+
     // итог: свободно во флеш-памяти из всего её объёма
+     printf("%s %8u", "flash free",   (unsigned)PICO_FLASH_SIZE_BYTES - 
+                                    ((unsigned)((uintptr_t)&__boot2_end__-(uintptr_t)& __boot2_start__)+
+                             (unsigned)((uintptr_t)&__etext- (uintptr_t)&__boot2_end__ )+
+                             (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ) ));
+
+    printf("%s %8u\n", " of",  (unsigned)PICO_FLASH_SIZE_BYTES);  
+    
+
     // итог: занято в ОЗУ — .data и .bss
+    printf("%s %8u", "ram used",  (unsigned)((uintptr_t)&__bss_end__-(uintptr_t)&__bss_start__ )+
+                              (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ) );
+
+    printf("%s %8u",  " = bss",  (unsigned)((uintptr_t)&__bss_end__-(uintptr_t)&__bss_start__ );
+    printf("%s %8u\n", "+ data",  (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ));  
+
+
     // итог: свободно в ОЗУ — под кучу и под стек
+    printf("%s %8u %s %8u %s\n ", "ram free",  
+            (unsigned)((uintptr_t)&__HeapLimit - (uintptr_t)&__bss_end__ )," for heap and", 
+            (unsigned)((uintptr_t)&__StackTop - (uintptr_t)&__StackBottom ),"for stack");
 }
