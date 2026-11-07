@@ -61,6 +61,7 @@ void mem_info(void)
     row("stack", (uintptr_t)&__StackBottom, (uintptr_t)&__StackTop);
 
     // итог: образ во флеш и из чего он сложился
+    printf("\n%s\n", "total");  
     printf("%s %8u", "flash image",   (unsigned)((uintptr_t)&__boot2_end__-(uintptr_t)& __boot2_start__)+
                              (unsigned)((uintptr_t)&__etext- (uintptr_t)&__boot2_end__ )+
                              (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ) );
