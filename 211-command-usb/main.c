@@ -7,9 +7,11 @@
 #include <stdio.h>
 #include <string.h>
 
+//свои модули
 #include "led.h"
 #include "log.h"
 #include "device.h"
+#include "memory.h"
 
 
 
