@@ -30,7 +30,7 @@ static void row(const char *name, uintptr_t start, uintptr_t end)
 void mem_info(void)
 {
     // шапка таблицы: область, начало, конец, размер
-    printf("%-15s %-15s %-15s %-15s\n",
+    printf("%-10s %-10s %-10s %-10s\n",
             "area","start","end","size");
 
     // flash — XIP_BASE и PICO_FLASH_SIZE_BYTES
@@ -38,7 +38,7 @@ void mem_info(void)
     // sram — базовый адрес из SDK, размер из datasheet
     row("sram", (uintptr_t)SRAM_BASE, (uintptr_t)SRAM_END);
     // rom — базовый адрес из SDK, размер из datasheet
-    row("row", (uintptr_t)ROM_BASE, (uintptr_t)(ROM_BASE+0x4000));
+    row("rom", (uintptr_t)ROM_BASE, (uintptr_t)(ROM_BASE+0x4000));
 
     // image — от __flash_binary_start до __flash_binary_end
     row("image", (uintptr_t)&__flash_binary_start, (uintptr_t)&__flash_binary_end);
@@ -50,6 +50,7 @@ void mem_info(void)
     row("text", (uintptr_t)&__boot2_end__ , (uintptr_t)&__etext);
 
     // data flash — хранение .data, от __etext, длиной с .data
+    row("data flash", (uintptr_t)&__etext, (uintptr_t)&__flash_binary_end);
     // data ram   — работа .data, от __data_start__ до __data_end__
     row("data ram", (uintptr_t)&__data_start__,(uintptr_t)&__data_end__);
     // bss        — от __bss_start__ до __bss_end__
