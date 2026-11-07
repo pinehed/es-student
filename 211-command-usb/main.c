@@ -67,6 +67,12 @@ void cmd_ping(void)
     printf("pong\n");
 }
 
+void cmd_mem_info(void)
+{
+    // печатаем строку журнала о версии прошивки
+    mem_info(); 
+}
+
 //Массив - таблица команд
 struct command_t
 {
@@ -80,6 +86,7 @@ const struct command_t commands[] = {
     { "info", cmd_info },
     { "version", cmd_version },
     { "ping", cmd_ping },
+    { "mem_info", cmd_mem_info }
 };
 
 #define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
