@@ -30,6 +30,8 @@ static void row(const char *name, uintptr_t start, uintptr_t end)
 void mem_info(void)
 {
     // шапка таблицы: область, начало, конец, размер
+    printf("%-15s %-15s %-15s %-15s\n",
+            "area","start","end","size");
 
     // flash — XIP_BASE и PICO_FLASH_SIZE_BYTES
     row("flash", (uintptr_t)XIP_BASE, (uintptr_t)(XIP_BASE+PICO_FLASH_SIZE_BYTES));
@@ -41,21 +43,21 @@ void mem_info(void)
     // image — от __flash_binary_start до __flash_binary_end
     row("image", (uintptr_t)&__flash_binary_start, (uintptr_t)&__flash_binary_end);
     // free  — от __flash_binary_end до конца флеш-памяти
-    row("free", (uintptr_t)&__flash_binary_end, (uintptr_t)(XIP_BASE+PICO_FLASH_SIZE_BYTES); //!!!
+    row("free", (uintptr_t)&__flash_binary_end, (uintptr_t)(XIP_BASE+PICO_FLASH_SIZE_BYTES)); //!!!
     // boot2 — от __boot2_start__ до __boot2_end__
-    row("boot2", (uintptr_t)& __boot2_start__(uintptr_t)&__boot2_end__);
+    row("boot2", (uintptr_t)& __boot2_start__, (uintptr_t)&__boot2_end__);
     // text  — от __boot2_end__ до __etext: код и константы
-    row("text", (uintptr_t)&__boot2_end__ (uintptr_t)&__etext);
+    row("text", (uintptr_t)&__boot2_end__ , (uintptr_t)&__etext);
 
     // data flash — хранение .data, от __etext, длиной с .data
     // data ram   — работа .data, от __data_start__ до __data_end__
-    row("data ram", (uintptr_t)&__data_start__ (uintptr_t)&__data_end__);
+    row("data ram", (uintptr_t)&__data_start__,(uintptr_t)&__data_end__);
     // bss        — от __bss_start__ до __bss_end__
-    row("bss", (uintptr_t)&__bss_start__ (uintptr_t)&__bss_end__);
+    row("bss", (uintptr_t)&__bss_start__,(uintptr_t)&__bss_end__);
     // heap       — от __bss_end__ до __HeapLimit
-    row("heap", (uintptr_t)&__bss_end__ (uintptr_t)&__HeapLimit);
+    row("heap", (uintptr_t)&__bss_end__,(uintptr_t)&__HeapLimit);
     // stack      — от __StackBottom до __StackTop
-    row("stack", (uintptr_t)&__StackBottom (uintptr_t)&__StackTop);
+    row("stack", (uintptr_t)&__StackBottom, (uintptr_t)&__StackTop);
 
     // итог: образ во флеш и из чего он сложился
     printf("%s %8u", "flash image",   (unsigned)((uintptr_t)&__boot2_end__-(uintptr_t)& __boot2_start__)+
@@ -80,7 +82,7 @@ void mem_info(void)
     printf("%s %8u", "ram used",  (unsigned)((uintptr_t)&__bss_end__-(uintptr_t)&__bss_start__ )+
                               (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ) );
 
-    printf("%s %8u",  " = bss",  (unsigned)((uintptr_t)&__bss_end__-(uintptr_t)&__bss_start__ );
+    printf("%s %8u",  " = bss",  (unsigned)((uintptr_t)&__bss_end__-(uintptr_t)&__bss_start__ ));
     printf("%s %8u\n", "+ data",  (unsigned)((uintptr_t)&__data_end__- (uintptr_t)&__data_start__ ));  
 
 
