@@ -3,6 +3,7 @@
 #include "pico/stdlib.h" //размер флеш памяти конкретной платы.
 #include "hardware/regs/addressmap.h" //базовых адресов флеш, ОЗУ и ПЗУ
 
+#include "device.h" 
 //Обьявляем символы линкера
 //каждое как внешнюю переменную и берите адрес, а не значение:
 extern char __flash_binary_start;
@@ -18,6 +19,79 @@ extern char __HeapLimit;
 extern char __StackBottom;
 extern char __StackTop;
 
+//2_1_4 Объявление int main(void); в начале memory.c нужно потому, что модуль берёт адрес функции, объявленной в другом файле. 
+//Имя функции без скобок — это адрес её первой команды. 
+// & ~1u сбрасывает признак, и адрес становится чётным.
+int main(void);
+
+
+uint32_t data_variable = 100;
+uint32_t bss_variable;
+
+
+static void row_fw1(const char *name, uintptr_t adr, uintptr_t val)
+{
+    printf("%-10s 0x%08x 0x%08x\n",
+           name, (unsigned)adr, (unsigned)val);
+}
+static void row_fw_commands(const char *name, uintptr_t adr)
+{
+    printf("%-10s 0x%08x\n",
+           name, (unsigned)adr);
+}
+static void row_fw3(const char *name, uintptr_t adr, const char *val)
+{
+    printf("%-10s 0x%08x %-10s\n",
+           name, (unsigned)adr, val);
+}
+static void row_fw4(const char *name, uintptr_t adr, uintptr_t val)
+{
+    printf("%-10s 0x%08x %08d\n",
+           name, (unsigned)adr, (unsigned)val);
+}
+
+
+void fw_info(void)
+{
+    // считаем вызов: data_variable и bss_variable на единицу больше
+        data_variable += 1;
+        bss_variable += 1;
+    // адреса функций со сброшенным признаком Thumb
+    uint16_t *main_code = (uint16_t *)((uintptr_t)main & ~1u);
+    uint16_t *fw_code = (uint16_t *)((uintptr_t)fw_info & ~1u);
+    // локальная переменная и блок из кучи
+        uint32_t stack_variable = 1946;
+        uint32_t *heap_variable = malloc(sizeof(uint32_t));
+        if (heap_variable != NULL)
+        {
+        *heap_variable = 1951;
+        }
+
+    // шапка: объект, адрес, значение
+        printf("%-10s %-10s %-10s\n",
+            "object","address","value");
+    // main, fw_info  — адрес с признаком Thumb и два байта по сброшенному адресу
+   // uintptr_t code_addr = (uintptr_t)main & ~(uintptr_t)1;
+   // uint16_t first = *(uint16_t *)code_addr;
+    row1("main", main_code, *main_code);
+    row1("fw_info",fw_code, *fw_code );
+    // commands       — адрес массива
+    // обработчики    — имя команды и адрес обработчика, строкой на команду
+    // константы      — адрес и значение строк паспорта из device.h
+    row3("DEVICE_PROJECT", (uintptr_t)DEVICE_PROJECT,DEVICE_PROJECT);
+    row3("DEVICE_BOARD", (uintptr_t)DEVICE_BOARD,DEVICE_BOARD);
+    // data_variable  — адрес и значение, секция .data
+    row4("data_variable",&data_variable, data_variable);
+    // bss_variable   — адрес и значение, секция .bss
+    row4("bss_variable", &bss_variable,bss_variable);
+    // stack_variable — адрес и значение
+    row4("stack_variable",&stack_variable, stack_variable);
+    // heap_variable  — адрес и значение  
+    row4("heap_variable",heap_variable, *heap_variable);
+
+    // возвращаем блок кучи
+        free(heap_variable);
+}
 
 // memory.c
 
@@ -93,3 +167,5 @@ void mem_info(void)
             (unsigned)((uintptr_t)&__HeapLimit - (uintptr_t)&__bss_end__ )," for heap and", 
             (unsigned)((uintptr_t)&__StackTop - (uintptr_t)&__StackBottom ),"for stack");
 }
+
+

@@ -12,7 +12,7 @@
 #include "log.h"
 #include "device.h"
 #include "memory.h"
-
+#include "command.h"
 
 
 
@@ -89,11 +89,12 @@ const struct command_t commands[] = {
     { "mem_info", cmd_mem_info }
 };
 
-#define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
+//command_count  - cчитаем длину 
+const uint command_count = sizeof(commands) / sizeof(commands[0]);
 
 void handle_command(const char *command)
 {
-    for (uint i = 0; i < COMMAND_COUNT; i++)
+    for (uint i = 0; i < command_count; i++)
     {
         if (strcmp(command, commands[i].name) == 0)
         {
