@@ -2,7 +2,7 @@
 #include <stdint.h>  // ради типа uintptr_t
 #include "pico/stdlib.h" //размер флеш памяти конкретной платы.
 #include "hardware/regs/addressmap.h" //базовых адресов флеш, ОЗУ и ПЗУ
-
+#include <stdlib.h> // для  malloc 
 #include "device.h" 
 //Обьявляем символы линкера
 //каждое как внешнюю переменную и берите адрес, а не значение:
