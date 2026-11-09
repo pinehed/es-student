@@ -4,6 +4,7 @@
 #include "hardware/regs/addressmap.h" //базовых адресов флеш, ОЗУ и ПЗУ
 #include <stdlib.h> // для  malloc 
 #include "device.h" 
+#include "command.h" 
 //Обьявляем символы линкера
 //каждое как внешнюю переменную и берите адрес, а не значение:
 extern char __flash_binary_start;
@@ -31,7 +32,7 @@ uint32_t bss_variable;
 
 static void row_fw1(const char *name, uintptr_t adr, uintptr_t val)
 {
-    printf("%-10s 0x%08x 0x%08x\n",
+    printf("%-10s 0x%08x 0x%04x\n",
            name, (unsigned)adr, (unsigned)val);
 }
 static void row_fw_commands(const char *name, uintptr_t adr)
@@ -46,7 +47,7 @@ static void row_fw3(const char *name, uintptr_t adr, const char *val)
 }
 static void row_fw4(const char *name, uintptr_t adr, uintptr_t val)
 {
-    printf("%-10s 0x%08x %08d\n",
+    printf("%-10s 0x%08x %d\n",
            name, (unsigned)adr, (unsigned)val);
 }
 
@@ -73,21 +74,28 @@ void fw_info(void)
     // main, fw_info  — адрес с признаком Thumb и два байта по сброшенному адресу
    // uintptr_t code_addr = (uintptr_t)main & ~(uintptr_t)1;
    // uint16_t first = *(uint16_t *)code_addr;
-    row1("main", main_code, *main_code);
-    row1("fw_info",fw_code, *fw_code );
+    row_fw1("main", main_code, *main_code);
+    row_fw1("fw_info",fw_code, *fw_code );
+
     // commands       — адрес массива
+    row_fw_commands("commands",  (uintptr_t)commands);
     // обработчики    — имя команды и адрес обработчика, строкой на команду
+    for (uint i = 0; i < command_count; i++)
+    {
+        row_fw_commands(commands[i].name,  (uintptr_t)commands[i].handler);
+    }
+    
     // константы      — адрес и значение строк паспорта из device.h
-    row3("DEVICE_PROJECT", (uintptr_t)DEVICE_PROJECT,DEVICE_PROJECT);
-    row3("DEVICE_BOARD", (uintptr_t)DEVICE_BOARD,DEVICE_BOARD);
+    row_fw3("DEVICE_PROJECT", (uintptr_t)DEVICE_PROJECT,DEVICE_PROJECT);
+    row_fw3("DEVICE_BOARD", (uintptr_t)DEVICE_BOARD,DEVICE_BOARD);
     // data_variable  — адрес и значение, секция .data
-    row4("data_variable",&data_variable, data_variable);
+    row_fw4("data_variable",&data_variable, data_variable);
     // bss_variable   — адрес и значение, секция .bss
-    row4("bss_variable", &bss_variable,bss_variable);
+    row_fw4("bss_variable", &bss_variable,bss_variable);
     // stack_variable — адрес и значение
-    row4("stack_variable",&stack_variable, stack_variable);
+    row_fw4("stack_variable",&stack_variable, stack_variable);
     // heap_variable  — адрес и значение  
-    row4("heap_variable",heap_variable, *heap_variable);
+    row_fw4("heap_variable",heap_variable, *heap_variable);
 
     // возвращаем блок кучи
         free(heap_variable);
