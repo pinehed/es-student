@@ -89,13 +89,13 @@ void fw_info(void)
     row_fw3("DEVICE_PROJECT", (uintptr_t)DEVICE_PROJECT,DEVICE_PROJECT);
     row_fw3("DEVICE_BOARD", (uintptr_t)DEVICE_BOARD,DEVICE_BOARD);
     // data_variable  — адрес и значение, секция .data
-    row_fw4("data_variable",&data_variable, data_variable);
+    row_fw4("data_variable",(uintptr_t)&data_variable, data_variable);
     // bss_variable   — адрес и значение, секция .bss
-    row_fw4("bss_variable", &bss_variable,bss_variable);
+    row_fw4("bss_variable", (uintptr_t)&bss_variable,bss_variable);
     // stack_variable — адрес и значение
-    row_fw4("stack_variable",&stack_variable, stack_variable);
+    row_fw4("stack_variable",(uintptr_t)&stack_variable, stack_variable);
     // heap_variable  — адрес и значение  
-    row_fw4("heap_variable",heap_variable, *heap_variable);
+    row_fw4("heap_variable",(uintptr_t)heap_variable, *heap_variable);
 
     // возвращаем блок кучи
         free(heap_variable);
