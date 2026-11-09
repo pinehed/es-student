@@ -73,6 +73,8 @@ void cmd_mem_info(void)
     mem_info(); 
 }
 
+extern void fw_info(void);
+
 void cmd_fw_info(void)
 {
     // 2_1_4 память программы
