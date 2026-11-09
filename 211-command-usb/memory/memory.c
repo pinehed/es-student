@@ -74,8 +74,8 @@ void fw_info(void)
     // main, fw_info  — адрес с признаком Thumb и два байта по сброшенному адресу
    // uintptr_t code_addr = (uintptr_t)main & ~(uintptr_t)1;
    // uint16_t first = *(uint16_t *)code_addr;
-    row_fw1("main", main_code, *main_code);
-    row_fw1("fw_info",fw_info_code, *fw_info_code );
+    row_fw1("main",(uintptr_t) main_code, *main_code);
+    row_fw1("fw_info",(uintptr_t)fw_info_code, *fw_info_code );
 
     // commands       — адрес массива
     row_fw_commands("commands",  (uintptr_t)commands);
