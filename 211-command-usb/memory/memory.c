@@ -59,7 +59,7 @@ void fw_info(void)
         bss_variable += 1;
     // адреса функций со сброшенным признаком Thumb
     uint16_t *main_code = (uint16_t *)((uintptr_t)main & ~1u);
-    uint16_t *fw_code = (uint16_t *)((uintptr_t)fw_info & ~1u);
+    uint16_t *fw_info_code = (uint16_t *)((uintptr_t)fw_info & ~1u);
     // локальная переменная и блок из кучи
         uint32_t stack_variable = 1946;
         uint32_t *heap_variable = malloc(sizeof(uint32_t));
@@ -75,7 +75,7 @@ void fw_info(void)
    // uintptr_t code_addr = (uintptr_t)main & ~(uintptr_t)1;
    // uint16_t first = *(uint16_t *)code_addr;
     row_fw1("main", main_code, *main_code);
-    row_fw1("fw_info",fw_code, *fw_code );
+    row_fw1("fw_info",fw_info_code, *fw_info_code );
 
     // commands       — адрес массива
     row_fw_commands("commands",  (uintptr_t)commands);
