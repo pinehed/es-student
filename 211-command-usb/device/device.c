@@ -46,7 +46,7 @@ void device_info(void)
    //           device_card.name = DEVICE_NAME//char name[13];
  //      };
 
- const struct info_t device_card = {
+ struct info_t device_card = {
        
             2,//    uint8_t revision;
             0x0010000, //FIRMWARE_VERSION,//uint32_t version;
@@ -64,13 +64,14 @@ void dev_info(void)
 
 
          // шапка: struct   address     size offset value
-    printf("%-10s %-10s %-10s\n",
+    printf("%-10s %-10s %-10s %-10s %-10s\n",
             "struct","address","size","offset","value");
-    printf("- %-13s 0x%08x %5u %6u 0x%13s\n",
+
+    printf("- %-13s 0x%08x %5u\n",
            "device_card",
-           &device_card
-           sizeof(device_card);
-    )
+           &device_card,
+           sizeof(device_card)
+            );
     
     printf("- %-13s 0x%08x %5u %6u 0x%5u\n",
            "revision",
