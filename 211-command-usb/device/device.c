@@ -47,9 +47,9 @@ void dev_info(void)
     uint32_t id = *chip_id;
     uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
      
-           const struct info_t device_card[] = {
+struct info_t device_card[] = {
               device_card.revision= revision//    uint8_t revision;
-              device_card.version = FIRMWARE_VERSION,//uint32_t version;
+              device_card.version = 2 //FIRMWARE_VERSION,//uint32_t version;
               device_card.name = DEVICE_NAME//char name[13];
        };
 
