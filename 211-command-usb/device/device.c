@@ -73,23 +73,29 @@ void dev_info(void)
            sizeof(device_card)
             );
     
-    printf("- %-13s 0x%08x %5u %6u 0x%5u\n",
+    printf("- %-13s 0x%08x %5u %6u %5u\n",
            "revision",
            &device_card.revision,
            sizeof(device_card.revision),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
            offsetof(struct info_t, revision),
            device_card.revision);
-    printf("- %-13s 0x%08x %5u %6u 0x%08x\n",
+    printf("- %-13s 0x%08x %5u %6u %08x\n",
            "version",
            &device_card.version,
            sizeof(device_card.version),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
            offsetof(struct info_t, version),
            device_card.version);
-    printf("- %-13s 0x%08x %5u %6u 0x%13s\n",
+    printf("- %-13s 0x%08x %5u %6u %13s\n",
            "name",
            &device_card.name,
            sizeof(device_card.name),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
            offsetof(struct info_t, name),
            device_card.name);
+       
+       unsigned fields = sizeof(device_card.version) + sizeof(device_card.name) + sizeof(device_card.revision);
+    printf("%s %u, %s %u, %s %u\n",
+           "fields", fields,
+           "sizeof",sizeof(device_card),
+           "padding", sizeof(device_card)- fields );
 }
 
