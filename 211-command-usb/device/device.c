@@ -45,15 +45,26 @@ const struct info_t device_card[] = {
 
 
 void dev_info(void)
-{
+{    // шапка: struct   address     size offset value
+    printf("%-10s %-10s %-10s\n",
+            "struct","address","size","offset","value");
+    
+    printf("- %-13s 0x%08x %5u %6u 0x%5u\n",
+           "revision",
+           &device_card.revision,
+           sizeof(device_card.revision),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
+           offsetof(struct info_t, revision),
+           device_card.revision);
     printf("- %-13s 0x%08x %5u %6u 0x%08x\n",
            "version",
            &device_card.version,
            sizeof(device_card.version),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
            offsetof(struct info_t, version),
            device_card.version);
-           offsetof(struct info_t, revision),
-           device_card.version);
+    printf("- %-13s 0x%08x %5u %6u 0x%13s\n",
+           "name",
+           &device_card.name,
+           sizeof(device_card.name),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
            offsetof(struct info_t, name),
-           device_card.version);
+           device_card.name);
 }
