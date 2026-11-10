@@ -48,9 +48,9 @@ void device_info(void)
 
  struct info_t device_card = {
        
-            2,//    uint8_t revision;
             0x0010000, //FIRMWARE_VERSION,//uint32_t version;
             "es-cmd-usb", //DEVICE_NAME, //char name[13];
+            2,//    uint8_t revision;
        
  };
 
@@ -96,6 +96,6 @@ void dev_info(void)
     printf("%s %u, %s %u, %s %u\n",
            "fields", fields,
            "sizeof",sizeof(device_card),
-           "padding", sizeof(device_card)- fields );
+           "padding",sizeof(device_card)- fields );
 }
 
