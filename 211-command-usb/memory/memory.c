@@ -191,7 +191,10 @@ void boot_info(void)
     uint32_t stack_top = vectors[0];
     uint32_t reset_handler = vectors[1];
     // указатель на регистр GPIO_IN и разряд вывода светодиода
+    volatile uint32_t *gpio_in = (uint32_t *)(SIO_BASE + SIO_GPIO_IN_OFFSET );
      uint32_t level = (*gpio_in >> led_pin()) & 1u;
+
+     
 
     // vector table   — адрес таблицы
     printf("%-13s 0x%8x\n", "vector table", (unsigned)vector);

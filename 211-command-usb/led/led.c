@@ -29,7 +29,7 @@ bool led_is_on(void)
     return led_state;
 }
 
-uint led_set(void)
+uint led_pin(void)
 {
     return LED_PIN;
 }
