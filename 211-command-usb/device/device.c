@@ -40,18 +40,25 @@ void device_info(void)
    //           DEVICE_NAME//char name[13];
    //    };
 
+// struct info_t device_card[] = {
+  //            device_card.revision= revision//    uint8_t revision;
+  //            device_card.version = 2 //FIRMWARE_VERSION,//uint32_t version;
+   //           device_card.name = DEVICE_NAME//char name[13];
+ //      };
+
+ struct info_t device_card[] = {
+            0x0010000, //    uint8_t revision;
+            2, //FIRMWARE_VERSION,//uint32_t version;
+            DEVICE_NAME, //char name[13];
+ }
 void dev_info(void)  
 {  
        //вычисляем поля - скопировано из device_info(void)
-     volatile uint32_t *chip_id = (uint32_t *)(SYSINFO_BASE + SYSINFO_CHIP_ID_OFFSET);
+       volatile uint32_t *chip_id = (uint32_t *)(SYSINFO_BASE + SYSINFO_CHIP_ID_OFFSET);
     uint32_t id = *chip_id;
     uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
-     
-struct info_t device_card[] = {
-              device_card.revision= revision//    uint8_t revision;
-              device_card.version = 2 //FIRMWARE_VERSION,//uint32_t version;
-              device_card.name = DEVICE_NAME//char name[13];
-       };
+    device_card.revision= revision;
+
 
          // шапка: struct   address     size offset value
     printf("%-10s %-10s %-10s\n",
