@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 //имя устройства, версия прошивки
-#define DEVICE_NAME "es-led-module"
+#define DEVICE_NAME "es-cmd-usb"
 #define FIRMWARE_VERSION "1.0.0"
 
 void log_version(void);
