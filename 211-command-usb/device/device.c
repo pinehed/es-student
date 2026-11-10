@@ -36,12 +36,13 @@ void device_info(void)
 
 
 
-const struct info_t info[] = {
+const struct info_t device_card[] = {
     { "revision", revision},
     { "version", cmd_version },
     { "name", "es-cmd-usb"}
 
 };
+
 
 void dev_info(void)
 {
@@ -50,5 +51,9 @@ void dev_info(void)
            &device_card.version,
            sizeof(device_card.version),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
            offsetof(struct info_t, version),
+           device_card.version);
+           offsetof(struct info_t, revision),
+           device_card.version);
+           offsetof(struct info_t, name),
            device_card.version);
 }
