@@ -90,7 +90,7 @@ void cmd_dev_info(void)
 
 void cmd_boot_info(void)
 {
-    // 2_1_4 память программы
+    // 2_1_5 чтение по адресу
    boot_info(); 
 }
 

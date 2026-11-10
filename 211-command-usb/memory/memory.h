@@ -4,3 +4,4 @@
 
 
 void mem_info(void);
+void boot_info(void);

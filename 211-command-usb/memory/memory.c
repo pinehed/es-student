@@ -205,7 +205,7 @@ void boot_info(void)
     //   reset (even) — оно же со сброшенным признаком Thumb
     printf("%-13s 0x%8x\n", "reset (even)",(unsigned)(reset_handler & ~1u));
     // gpio in        — адрес регистра
-    printf("%-13s 0x%8x\n", "gpio in",(unsigned)level);
+    printf("%-13s 0x%8x\n", "gpio in",(unsigned)gpio_in);
     //   led bit      — разряд из регистра
     printf("%-13s %u\n", "led bit",level);
     //   gpio_get     — то же значение через SDK
