@@ -34,10 +34,8 @@ void device_info(void)
     printf("pico-sdk: %s\n", PICO_SDK_VERSION_STRING);
 }
 
-int32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
-
 const struct info_t device_card[] = {
-    { "revision", revision},
+    { "revision", DEVICE_BOARD},
     { "version", FIRMWARE_VERSION },
     { "name", DEVICE_NAME}
 
@@ -51,7 +49,8 @@ void dev_info(void)
     printf("- %-13s 0x%08x %5u %6u 0x%13s\n",
            "device_card",
            &device_card
-           sizeof(device_card));
+           sizeof(device_card);
+    )
     
     printf("- %-13s 0x%08x %5u %6u 0x%5u\n",
            "revision",

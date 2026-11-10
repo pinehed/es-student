@@ -4,8 +4,8 @@
 #pragma once
 
 // константы: имя устройства, версия прошивки, проект, ссылка на репозиторий
-#define DEVICE_NAME "es-led-module"
-#define FIRMWARE_VERSION "1.0.0"
+#define DEVICE_NAME "es-cmd-usb"
+#define FIRMWARE_VERSION "2.0.0"
 
 #define DEVICE_PROJECT "211-command-usb"
 #define DEVICE_REPO "https://github.com/pinehed/es-student"
