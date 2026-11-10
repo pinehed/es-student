@@ -34,16 +34,23 @@ void device_info(void)
     printf("pico-sdk: %s\n", PICO_SDK_VERSION_STRING);
 }
 
-const struct info_t device_card[] = {
-    DEVICE_BOARD,
-    FIRMWARE_VERSION,
-    DEVICE_NAME
-
-};
 
 
-void dev_info(void)
-{    // шапка: struct   address     size offset value
+void dev_info(void)  
+{  
+       //вычисляем поля - скопировано из device_info(void)
+     volatile uint32_t *chip_id = (uint32_t *)(SYSINFO_BASE + SYSINFO_CHIP_ID_OFFSET);
+    uint32_t id = *chip_id;
+    uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS) >> SYSINFO_CHIP_ID_REVISION_LSB;
+
+  
+       const struct info_t device_card[] = {
+              derevision//    uint8_t revision;
+              FIRMWARE_VERSION,//uint32_t version;
+              DEVICE_NAME//char name[13];
+       };
+
+         // шапка: struct   address     size offset value
     printf("%-10s %-10s %-10s\n",
             "struct","address","size","offset","value");
     printf("- %-13s 0x%08x %5u %6u 0x%13s\n",
