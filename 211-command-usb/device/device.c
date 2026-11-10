@@ -34,18 +34,6 @@ void device_info(void)
     printf("pico-sdk: %s\n", PICO_SDK_VERSION_STRING);
 }
 
-  //     const struct info_t device_card[] = {
-  //            derevision//    uint8_t revision;
-  //            FIRMWARE_VERSION,//uint32_t version;
-   //           DEVICE_NAME//char name[13];
-   //    };
-
-// struct info_t device_card[] = {
-  //            device_card.revision= revision//    uint8_t revision;
-  //            device_card.version = 2 //FIRMWARE_VERSION,//uint32_t version;
-   //           device_card.name = DEVICE_NAME//char name[13];
- //      };
-
  struct info_t device_card = {
        
             0x0010000, //FIRMWARE_VERSION,//uint32_t version;

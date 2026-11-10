@@ -88,6 +88,11 @@ void cmd_dev_info(void)
    dev_info(); 
 }
 
+void cmd_boot_info(void)
+{
+    // 2_1_4 память программы
+   boot_info(); 
+}
 
 const struct command_t commands[] = {
     { "enable", cmd_enable },
@@ -97,7 +102,9 @@ const struct command_t commands[] = {
     { "ping", cmd_ping },
     { "mem_info", cmd_mem_info },
     { "fw_info", cmd_fw_info },
-    { "dev_info", cmd_dev_info }
+    { "dev_info", cmd_dev_info },
+    { "boot_info", cmd_boot_info },
+
 };
 
 //command_count  - cчитаем длину 

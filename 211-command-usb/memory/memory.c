@@ -5,6 +5,9 @@
 #include <stdlib.h> // для  malloc 
 #include "device.h" 
 #include "command.h" 
+#include "command.h" //для  uint led_pin(void),
+#include "hardware/gpio.h"
+
 //Обьявляем символы линкера
 //каждое как внешнюю переменную и берите адрес, а не значение:
 extern char __flash_binary_start;
@@ -101,7 +104,6 @@ void fw_info(void)
         free(heap_variable);
 }
 
-// memory.c
 
 static void row(const char *name, uintptr_t start, uintptr_t end)
 {
@@ -176,4 +178,34 @@ void mem_info(void)
             (unsigned)((uintptr_t)&__StackTop - (uintptr_t)&__StackBottom ),"for stack");
 }
 
+
+
+
+void boot_info(void)
+{
+    // указатель на таблицу векторов и два первых слова из неё
+    
+    #define VECTOR_TABLE 0x10000100
+    const uint32_t *vectors = (const uint32_t *)VECTOR_TABLE;
+
+    uint32_t stack_top = vectors[0];
+    uint32_t reset_handler = vectors[1];
+    // указатель на регистр GPIO_IN и разряд вывода светодиода
+     uint32_t level = (*gpio_in >> led_pin()) & 1u;
+
+    // vector table   — адрес таблицы
+    printf("%-13s 0x%8x\n", "vector table", (unsigned)vector);
+    //   stack top    — первое слово
+    printf("%-13s 0x%8x\n", "stack top",(unsigned)stack_top);
+    //   reset        — второе слово
+    printf("%-13s 0x%8x\n", "reset",(unsigned)reset_handler);
+    //   reset (even) — оно же со сброшенным признаком Thumb
+    printf("%-13s 0x%8x\n", "reset (even)",(unsigned)(&reset_handler & ~1u));
+    // gpio in        — адрес регистра
+    printf("%-13s 0x%8x\n", "gpio in",(unsigned)level);
+    //   led bit      — разряд из регистра
+    printf("%-13s %u\n", "led bit",level);
+    //   gpio_get     — то же значение через SDK
+    printf("%-13s %u\n", "gpio_get",gpio_get(led_pin()));
+}
 
