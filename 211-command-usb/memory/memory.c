@@ -197,13 +197,13 @@ void boot_info(void)
      
 
     // vector table   — адрес таблицы
-    printf("%-13s 0x%8x\n", "vector table", (unsigned)vector);
+    printf("%-13s 0x%8x\n", "vector table", (unsigned)vectors);
     //   stack top    — первое слово
     printf("%-13s 0x%8x\n", "stack top",(unsigned)stack_top);
     //   reset        — второе слово
     printf("%-13s 0x%8x\n", "reset",(unsigned)reset_handler);
     //   reset (even) — оно же со сброшенным признаком Thumb
-    printf("%-13s 0x%8x\n", "reset (even)",(unsigned)(&reset_handler & ~1u));
+    printf("%-13s 0x%8x\n", "reset (even)",(unsigned)(reset_handler & ~1u));
     // gpio in        — адрес регистра
     printf("%-13s 0x%8x\n", "gpio in",(unsigned)level);
     //   led bit      — разряд из регистра

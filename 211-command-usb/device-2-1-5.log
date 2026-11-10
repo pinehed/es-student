@@ -3,14 +3,14 @@
 устройство: 2e8a:000a
 серийный номер: 5303284748D5599C
 порт: /dev/ttyACM0
-начало: 2026-11-10T23:42:51
+начало: 2026-11-11T01:13:03
    0.000 --> dev_info
-   0.163 <-- dev_info
-   0.164 <-- dbg read_line:141 got dev_info
-   0.165 <-- struct     address    size       offset     value
-   0.166 <-- - device_card   0x20000f58    20
-   0.167 <-- - revision      0x20000f69     1     17     2
-   0.168 <-- - version       0x20000f58     4      0 00010000
-   0.170 <-- - name          0x20000f5c    13      4    es-cmd-usb
-   0.171 <-- fields 18, sizeof 20, padding 2
+   0.180 <-- dev_info
+   0.181 <-- dbg read_line:148 got dev_info
+   0.181 <-- struct     address    size       offset     value
+   0.182 <-- - device_card   0x20000f58    20
+   0.182 <-- - revision      0x20000f69     1     17     2
+   0.183 <-- - version       0x20000f58     4      0 00010000
+   0.183 <-- - name          0x20000f5c    13      4    es-cmd-usb
+   0.184 <-- fields 18, sizeof 20, padding 2
 итог: отправлено команд 1, принято строк 8
