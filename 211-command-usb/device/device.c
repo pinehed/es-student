@@ -7,6 +7,7 @@
 #include "hardware/regs/addressmap.h"
 #include "hardware/regs/sysinfo.h"
 #include "pico/version.h"
+#include <stddef.h> //offsetof
 
 void device_info(void)
 {
@@ -31,4 +32,23 @@ void device_info(void)
     printf("serial: %s\n", board_id);
     printf("chip: manufacturer 0x%03x, part 0x%04x, revision %u\n", manufacturer, part, revision);
     printf("pico-sdk: %s\n", PICO_SDK_VERSION_STRING);
+}
+
+
+
+const struct info_t info[] = {
+    { "revision", revision},
+    { "version", cmd_version },
+    { "name", "es-cmd-usb"}
+
+};
+
+void dev_info(void)
+{
+    printf("- %-13s 0x%08x %5u %6u 0x%08x\n",
+           "version",
+           &device_card.version,
+           sizeof(device_card.version),//offsetof(тип, поле) -смещение:расстояние в байтах от начала структуры до поля.
+           offsetof(struct info_t, version),
+           device_card.version);
 }

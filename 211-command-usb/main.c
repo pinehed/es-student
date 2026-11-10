@@ -82,6 +82,12 @@ void cmd_fw_info(void)
 }
 //Массив - таблица команд
 
+void cmd_dev_info(void)
+{
+    // 2_1_4 память программы
+   dev_info(); 
+}
+
 
 const struct command_t commands[] = {
     { "enable", cmd_enable },
@@ -90,7 +96,8 @@ const struct command_t commands[] = {
     { "version", cmd_version },
     { "ping", cmd_ping },
     { "mem_info", cmd_mem_info },
-    { "fw_info", cmd_fw_info }
+    { "fw_info", cmd_fw_info },
+    { "dev_info", cmd_dev_info }
 };
 
 //command_count  - cчитаем длину 
