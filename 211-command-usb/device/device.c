@@ -47,9 +47,11 @@ void device_info(void)
  //      };
 
  const struct info_t device_card[] = {
+       {
             2,//    uint8_t revision;
             0x0010000, //FIRMWARE_VERSION,//uint32_t version;
             "es-cmd-usb", //DEVICE_NAME, //char name[13];
+       }
  }
 
 void dev_info(void)  
