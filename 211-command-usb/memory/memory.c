@@ -5,8 +5,7 @@
 #include <stdlib.h> // для  malloc 
 #include "device.h" 
 #include "command.h" 
-#include "command.h" //для  uint led_pin(void),
-#include "hardware/gpio.h"
+#include "led.h" //для  uint led_pin(void),
 
 //Обьявляем символы линкера
 //каждое как внешнюю переменную и берите адрес, а не значение:
