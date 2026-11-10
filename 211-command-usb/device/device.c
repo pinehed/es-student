@@ -46,7 +46,7 @@ void device_info(void)
    //           device_card.name = DEVICE_NAME//char name[13];
  //      };
 
- struct info_t device_card[] = {
+ const struct info_t device_card[] = {
             0x0010000, //    uint8_t revision;
             2, //FIRMWARE_VERSION,//uint32_t version;
             DEVICE_NAME, //char name[13];
