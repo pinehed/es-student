@@ -35,9 +35,9 @@ void device_info(void)
 }
 
 const struct info_t device_card[] = {
-    { "revision", DEVICE_BOARD},
-    { "version", FIRMWARE_VERSION },
-    { "name", DEVICE_NAME}
+    DEVICE_BOARD,
+    FIRMWARE_VERSION,
+    DEVICE_NAME
 
 };
 
