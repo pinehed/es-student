@@ -50,3 +50,10 @@ row("clk_adc", clock_get_hz(clk_adc) / 1000, frequency_count_khz(CLOCKS_FC0_SRC_
     // rosc — прочерк вместо настроенной частоты и измеренная частота
 row_rosc("rosc", "-", frequency_count_khz(CLOCKS_FC0_SRC_VALUE_ROSC_CLKSRC));
 }
+
+//Функция, печатает показание счёта в миллисекундах. 
+//time_us_64() - Монотонное время прибора ведёт таймер. Он прибавляет единицу раз в микросекунду, начиная с момента сброса. 
+void uptime(void)
+{
+    printf("uptime: %llu ms\n", time_us_64() / 1000);
+}

@@ -1,8 +1,6 @@
 
 // добавляем заголовочный файл функций ввода-вывода
 #include "pico/stdlib.h"
-// добавляем заголовочный файл функций работы с GPIO
-#include "hardware/gpio.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -16,38 +14,18 @@
 #include "clock.h"
 
 
-const uint BUTTON_PIN = 15;  
-const uint DEBOUNCE_MS = 20; //константа задержки
 
 //буфер строки
 #define LINE_SIZE 32
 char line[LINE_SIZE];
 uint line_length = 0;
 
-bool get_button_debounce(uint pin)
-{
-    // читаем вывод устойчиво к дребезгу
-    bool state = gpio_get(pin);
-    sleep_ms(DEBOUNCE_MS);
-    return state && gpio_get(pin);
-}
+
 
 //опишем тип обработчика
 typedef void (*command_handler_t)(void);
 
-void cmd_enable(void)
-{
-    // включаем светодиод и сообщаем новое состояние
-    led_set(true);
-    LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-}
 
-void cmd_disable(void)
-{
-    // выключаем светодиод и сообщаем новое состояние
-    led_set(false);
-    LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-}
 
 void cmd_info(void)
 {
@@ -99,11 +77,14 @@ void cmd_clk_info(void)
     // 2_1_5 чтение по адресу
    clk_info(); 
 }
+void cmd_uptime(void)
+{
+    // 2_1_5 чтение по адресу
+   uptime(); 
+}
 
 
 const struct command_t commands[] = {
-    { "enable", cmd_enable },
-    { "disable", cmd_disable },
     { "info", cmd_info },
     { "version", cmd_version },
     { "ping", cmd_ping },
@@ -111,7 +92,8 @@ const struct command_t commands[] = {
     { "fw_info", cmd_fw_info },
     { "dev_info", cmd_dev_info },
     { "boot_info", cmd_boot_info },
-    { "clk_info", cmd_clk_info }
+    { "clk_info", cmd_clk_info },
+    { "uptime", cmd_uptime},
 };
 
 //command_count  - cчитаем длину 
@@ -168,37 +150,30 @@ void read_line(void)
     }
 }
 
+//Мигать по часам  (2_2_2)
+const uint BLINK_HALF_PERIOD_MS = 500; //константа полупериода, миллисек.
+uint64_t last_toggle_us = 0;//метка прошлого переключения
+void blink(void)
+{
+    uint64_t now_us = time_us_64();
+
+    if (now_us - last_toggle_us >= BLINK_HALF_PERIOD_MS * 1000) //Полупериод задан в миллисекундах, а часы идут в микросекундах. Поэтому константа умножается на 1000.
+    {
+        last_toggle_us = now_us;
+        led_toggle();
+    }
+}
 
 int main()
 {
-    // включаем стандартный ввод-вывод
+    // инициализируем стандартный ввод-вывод и светодиод
     stdio_init_all();
     led_init();
-  
-
-    // инициализируем и настраиваем вывод кнопки
-    gpio_init(BUTTON_PIN);
-    gpio_set_dir(BUTTON_PIN, GPIO_IN);//`GPIO_IN`:микроконтроллер будет напряжение считывать, а не выдавать.
-    gpio_pull_up(BUTTON_PIN); // `gpio_pull_up()` включает подтягивающий резистор, из-за которого отпущенная кнопка читается как `true`.
-
-    // объявляем переменные
-    bool led = false; // Светит ли светодиод. 
-    bool previous = false;//что вывод показал на прошлом шаге цикла
 
     while (1)
     {
-        // читаем состояние пина кнопки с задержкой
-         bool current = get_button_debounce(BUTTON_PIN);      
+        blink();
 
-        if (previous == true && current == false)
-        {
-            led_toggle();
-            LOG_INF("led %s\n", led_is_on() ? "on" : "off");
-        }
-
-        // запоминаем текущее состояние пина кнопки, как предыдущее
-        previous = current;
-        
         read_line();
     }
 }
