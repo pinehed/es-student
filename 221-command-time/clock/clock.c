@@ -2,25 +2,7 @@
 #include <stdint.h>  // типы SDK, 
 #include "hardware/clocks.h" //ради функций работы с тактовыми сигналами.
 
-/* 
-#define CLOCKS_FC0_SRC_VALUE_NULL _u(0x00)
-#define CLOCKS_FC0_SRC_VALUE_PLL_SYS_CLKSRC_PRIMARY _u(0x01)
-#define CLOCKS_FC0_SRC_VALUE_PLL_USB_CLKSRC_PRIMARY _u(0x02)
-#define CLOCKS_FC0_SRC_VALUE_ROSC_CLKSRC _u(0x03)
-#define CLOCKS_FC0_SRC_VALUE_ROSC_CLKSRC_PH _u(0x04)
-#define CLOCKS_FC0_SRC_VALUE_XOSC_CLKSRC _u(0x05)
-#define CLOCKS_FC0_SRC_VALUE_CLKSRC_GPIN0 _u(0x06)
-#define CLOCKS_FC0_SRC_VALUE_CLKSRC_GPIN1 _u(0x07)
-#define CLOCKS_FC0_SRC_VALUE_CLK_REF _u(0x08)
-#define CLOCKS_FC0_SRC_VALUE_CLK_SYS _u(0x09)
-#define CLOCKS_FC0_SRC_VALUE_CLK_PERI _u(0x0a)
-#define CLOCKS_FC0_SRC_VALUE_CLK_USB _u(0x0b)
-#define CLOCKS_FC0_SRC_VALUE_CLK_ADC _u(0x0c)
-#define CLOCKS_FC0_SRC_VALUE_CLK_RTC _u(0x0d)
-*/
-
 //uint32_t sys_hz = clock_get_hz(clk_sys);
-
 //uint32_t sys_khz = frequency_count_khz(CLOCKS_FC0_SRC_VALUE_CLK_SYS);
 
 
@@ -50,6 +32,8 @@ row("clk_adc", clock_get_hz(clk_adc) / 1000, frequency_count_khz(CLOCKS_FC0_SRC_
     // rosc — прочерк вместо настроенной частоты и измеренная частота
 row_rosc("rosc", "-", frequency_count_khz(CLOCKS_FC0_SRC_VALUE_ROSC_CLKSRC));
 }
+
+extern uint64_t time_us_64();
 
 //Функция, печатает показание счёта в миллисекундах. 
 //time_us_64() - Монотонное время прибора ведёт таймер. Он прибавляет единицу раз в микросекунду, начиная с момента сброса. 
