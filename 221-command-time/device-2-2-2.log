@@ -1,0 +1,63 @@
+задание: 2.2.2
+проект: 221-command-time
+устройство: 2e8a:000a
+серийный номер: 5303284748D5599C
+порт: /dev/ttyACM0
+начало: 2026-11-16T02:18:39
+   0.000 --> uptime
+   0.001 <-- uptime
+   0.002 <-- dbg read_line:137 got uptime
+   0.002 <-- uptime: 32828 ms
+   0.403 --> boot_info
+   0.403 <-- boot_info
+   0.404 <-- dbg read_line:137 got boot_info
+   0.405 <-- vector table  0x10000100
+   0.406 <-- stack top     0x20042000
+   0.406 <-- reset         0x100001f7
+   0.407 <-- reset (even)  0x100001f6
+   0.408 <-- gpio in       0xd0000004
+   0.408 <-- led bit       0
+   0.409 <-- gpio_get      0
+   0.809 --> uptime
+   0.810 <-- uptime
+   0.811 <-- dbg read_line:137 got uptime
+   0.811 <-- uptime: 33637 ms
+   1.212 --> boot_info
+   1.213 <-- boot_info
+   1.214 <-- dbg read_line:137 got boot_info
+   1.214 <-- vector table  0x10000100
+   1.215 <-- stack top     0x20042000
+   1.215 <-- reset         0x100001f7
+   1.216 <-- reset (even)  0x100001f6
+   1.217 <-- gpio in       0xd0000004
+   1.217 <-- led bit       0
+   1.217 <-- gpio_get      0
+   1.619 --> uptime
+   1.619 <-- uptime
+   1.620 <-- dbg read_line:137 got uptime
+   1.621 <-- uptime: 34446 ms
+   2.022 --> boot_info
+   2.022 <-- boot_info
+   2.023 <-- dbg read_line:137 got boot_info
+   2.024 <-- vector table  0x10000100
+   2.024 <-- stack top     0x20042000
+   2.025 <-- reset         0x100001f7
+   2.025 <-- reset (even)  0x100001f6
+   2.026 <-- gpio in       0xd0000004
+   2.026 <-- led bit       1
+   2.027 <-- gpio_get      1
+   2.428 --> uptime
+   2.428 <-- uptime
+   2.429 <-- dbg read_line:137 got uptime
+   2.430 <-- uptime: 35255 ms
+   2.831 --> boot_info
+   2.831 <-- boot_info
+   2.833 <-- dbg read_line:137 got boot_info
+   2.833 <-- vector table  0x10000100
+   2.834 <-- stack top     0x20042000
+   2.835 <-- reset         0x100001f7
+   2.836 <-- reset (even)  0x100001f6
+   2.836 <-- gpio in       0xd0000004
+   2.837 <-- led bit       1
+   2.838 <-- gpio_get      1
+итог: отправлено команд 8, принято строк 48
