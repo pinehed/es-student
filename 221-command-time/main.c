@@ -16,8 +16,6 @@
 
 
 
-
-
 //буфер строки
 #define LINE_SIZE 32
 char line[LINE_SIZE];

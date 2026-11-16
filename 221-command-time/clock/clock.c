@@ -64,7 +64,7 @@ void clk_sys_low(void)
     clk_sys_set(CLK_SYS_LOW_KHZ);  
 }
 
-void clk_sys_default()void)
+void clk_sys_default(void)
 {
     clk_sys_set(SYS_CLK_KHZ);//Макрос SYS_CLK_KHZ задан в Pico SDK и равен рабочей частоте 125 000 кГц
 }
