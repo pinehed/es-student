@@ -12,6 +12,9 @@
 #include "memory.h"
 #include "command.h"
 #include "clock.h"
+#include "profiling.h"
+
+
 
 
 
@@ -118,6 +121,16 @@ void cmd_calc_pi(void)
     printf("time: %llu ms\n", spent_us / 1000);
 }
 
+void main_time_exec(void)
+{ //печатает среднее и максимум 
+   printf("iteration avg %.2f us, max %u us\n", profiling_avg_us(), (unsigned)profiling_max_us());
+}
+
+void main_time_reset(void)
+{ profiling_reset_max() 
+   printf("max reset\n");
+}
+
 const struct command_t commands[] = {
     { "info", cmd_info },
     { "version", cmd_version },
@@ -129,6 +142,8 @@ const struct command_t commands[] = {
     { "clk_info", cmd_clk_info },
     { "uptime", cmd_uptime},
     { "calc_pi", cmd_calc_pi },
+    { "main_time_reset ", cmd_main_time_reset},
+    { "main_time_exec", cmd_main_time_exec },
 };
 
 //command_count  - cчитаем длину 
@@ -207,11 +222,16 @@ int main()
     // инициализируем стандартный ввод-вывод и светодиод
     stdio_init_all();
     led_init();
+     // запоминаем начальное показание часов для профилирования
+     profiling_init()
 
     while (1)
-    {
+    {   // учитываем прошлую итерацию
+        profiling_iteration()
+        // мигаем светодиодом
+    
         blink();
-
+        // принимаем команды
         read_line();
     }
 }
