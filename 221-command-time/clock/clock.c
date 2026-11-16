@@ -1,7 +1,7 @@
 #include <stdio.h> // ради printf(),
 #include <stdint.h>  // типы SDK, 
 #include "hardware/clocks.h" //ради функций работы с тактовыми сигналами.
-
+#include "log.h" //Для LOG_INF() и LOG_ERR() 
 //uint32_t sys_hz = clock_get_hz(clk_sys);
 //uint32_t sys_khz = frequency_count_khz(CLOCKS_FC0_SRC_VALUE_CLK_SYS);
 
@@ -33,6 +33,7 @@ row("clk_adc", clock_get_hz(clk_adc) / 1000, frequency_count_khz(CLOCKS_FC0_SRC_
 row_rosc("rosc", "-", frequency_count_khz(CLOCKS_FC0_SRC_VALUE_ROSC_CLKSRC));
 }
 
+
 extern uint64_t time_us_64();
 
 //Функция, печатает показание счёта в миллисекундах. 
@@ -40,4 +41,30 @@ extern uint64_t time_us_64();
 void uptime(void)
 {
     printf("uptime: %llu ms\n", time_us_64() / 1000);
+}
+
+
+//константа пониженной частоты
+const uint32_t CLK_SYS_LOW_KHZ = 62500;
+//функцию, которая ставит частоту и сообщает результат:
+static void clk_sys_set(uint32_t khz)  // остаётся внутри модуля, поэтому объявлена со словом static.
+{
+    if (set_sys_clock_khz(khz, false))  //Частоту ядра меняет функция SDK set_sys_clock_khz()
+    {
+        LOG_INF("clk_sys %u kHz\n", (unsigned)khz);
+    }
+    else
+    {
+        LOG_ERR("clk_sys %u kHz is not set\n", (unsigned)khz);
+    }
+}
+
+void clk_sys_low(void)
+{
+    clk_sys_set(CLK_SYS_LOW_KHZ);  
+}
+
+void clk_sys_default()void)
+{
+    clk_sys_set(SYS_CLK_KHZ);//Макрос SYS_CLK_KHZ задан в Pico SDK и равен рабочей частоте 125 000 кГц
 }
