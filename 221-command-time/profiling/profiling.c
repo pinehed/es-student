@@ -43,7 +43,7 @@ float profiling_avg_us(void)
 //profiling_max_us() возвращает max_us, а profiling_reset_max() обнуляет его.
 float profiling_max_us(void)
 {
-    return (float)(max_us);
+    return (max_us);
 }
 
 float profiling_reset_us(void)
