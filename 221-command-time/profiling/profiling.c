@@ -47,7 +47,7 @@ uint32_t profiling_max_us(void)
     return (max_us);
 }
 
-void  profiling_reset_us(void)
+void  profiling_reset_max(void)
 {
     max_us = 0;
 }
