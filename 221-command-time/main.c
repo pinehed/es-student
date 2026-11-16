@@ -95,7 +95,7 @@ double calc_pi(uint terms)
     double sign = 1.0;
 
     // для k от 0 до terms: прибавить к сумме sign / (2k + 1) и сменить знак
-        for (int k = 0; k < n; k++) {
+        for (int k = 0; k < terms; k++) {
         // Прибавить очередной член ряда: ±1 / (2k + 1)
         sum += sign / (2.0 * k + 1.0);
         sign = -sign;
