@@ -14,15 +14,6 @@
 
 
 
-//буфер строки
-#define LINE_SIZE 32
-char line[LINE_SIZE];
-uint line_length = 0;
-
-
-
-
-
 //Мигать по часам  (2_2_2)
 const uint BLINK_HALF_PERIOD_MS = 500; //константа полупериода, миллисек.
 uint64_t last_toggle_us = 0;//метка прошлого переключения
@@ -43,14 +34,12 @@ void blink(void)
 int main()
 {
     // инициализируем стандартный ввод-вывод и светодиод
-    stdio_init_all();
     led_init();
      // запоминаем начальное показание часов для профилирования
      profiling_init();
 
 
     stdio_text_protocol_init();
-    
     while (1)
     {   // учитываем прошлую итерацию
         profiling_iteration();
