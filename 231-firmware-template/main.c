@@ -22,134 +22,6 @@ uint line_length = 0;
 
 
 
-//опишем тип обработчика
-typedef void (*command_handler_t)(void);
-
-
-void cmd_info(void)
-{
-    // печатаем паспорт устройства
-    device_info();
-}
-
-
-
-//Массив - таблица команд
-void cmd_uptime(void)
-{
-    // 2_1_5 чтение по адресу
-   uptime(); 
-}
-
-
-//число пи методом Лейбница
-// прикидка: за член ряда 4 операции с double, 175 + 110 + 190 + 110 = 585 тактов;
-// 1 000 000 членов по 585 тактов при 125 МГц — около 4,7 с
-const uint CALC_PI_TERMS = 1000000;
-double calc_pi(uint terms)
-{
-    // сумма ряда и знак очередного члена, оба double
-    double sum = 0.0;
-    double sign = 1.0;
-
-    // для k от 0 до terms: прибавить к сумме sign / (2k + 1) и сменить знак
-        for (int k = 0; k < terms; k++) {
-        // Прибавить очередной член ряда: ±1 / (2k + 1)
-        sum += sign / (2.0 * k + 1.0);
-        sign = -sign;
-    }
-
-    // вернуть сумму, умноженную на 4
-    // Сумма ряда равна π/4
-    return 4.0 * sum;
-}
-
-volatile double pi_result;//обращения через volatile компилятор не выбрасывает и не переставляет друг относительно друга. Без этого слова компилятор вправе перенести расчёт за второе чтение часов. Результат от этого не изменится, но замер измерит пустое место.
-
-void cmd_calc_pi(void)
-{
-    uint64_t start_us = time_us_64();
-    pi_result = calc_pi(CALC_PI_TERMS);
-    uint64_t spent_us = time_us_64() - start_us;
-
-    printf("pi: %.8f\n", pi_result);
-    printf("time: %llu ms\n", spent_us / 1000);
-}
-
-void cmd_main_time_exec(void)
-{ //печатает среднее и максимум 
-   printf("iteration avg %.2f us, max %u us\n", profiling_avg_us(), (unsigned)profiling_max_us());
-}
-
-void cmd_main_time_reset(void)
-{ 
-   profiling_reset_max();
-   printf("max reset\n");
-}
-
-
-const struct command_t commands[] = {
-    { "info", cmd_info },
-    { "uptime", cmd_uptime},
-    { "calc_pi", cmd_calc_pi },
-    { "main_time_reset", cmd_main_time_reset},
-    { "main_time_exec", cmd_main_time_exec },
-
-};
-
-//command_count  - cчитаем длину 
-const uint command_count = sizeof(commands) / sizeof(commands[0]);
-
-void handle_command(const char *command)
-{
-    for (uint i = 0; i < command_count; i++)
-    {
-        if (strcmp(command, commands[i].name) == 0)
-        {
-            if (commands[i].handler != NULL) //важно! Что бы не было: ядро передаст управление в начало Boot ROM (адрес )
-            {
-                commands[i].handler();//- вызов по указателю: скобки после указателя означают «передать управление по этому адресу». 
-            }
-
-            return;
-        }
-    }
-
-    LOG_ERR("unknown command: %s\n", command);
-}
-
-//функция: сбор строки из символов
-void read_line(void)
-{
-    int symbol = getchar_timeout_us(0);
-
-    if (symbol == PICO_ERROR_TIMEOUT)
-    {
-        return;
-    }
-
-    if (symbol == '\r' || symbol == '\n')
-    {
-        putchar('\n');
-        line[line_length] = '\0';
-
-        if (line_length > 0)
-        {
-            LOG_DBG("got %s\n", line);
-            handle_command(line);
-        }
-
-        line_length = 0;
-        return;
-    }
-
-    if (line_length + 1 < LINE_SIZE)
-    {
-        line[line_length] = (char)symbol;
-        line_length = line_length + 1;
-        putchar(symbol);
-    }
-}
 
 //Мигать по часам  (2_2_2)
 const uint BLINK_HALF_PERIOD_MS = 500; //константа полупериода, миллисек.
@@ -176,12 +48,22 @@ int main()
      // запоминаем начальное показание часов для профилирования
      profiling_init();
 
+
+    stdio_text_protocol_init();
+    
     while (1)
     {   // учитываем прошлую итерацию
         profiling_iteration();
         // мигаем светодиодом
-    
         blink();
+
+        // принятая строка становится командой, команда — действием прибора
+        const command_t *command = stdio_text_protocol_handle();
+        if (command != NULL)
+        {
+            api_handle(command);
+        }
+
         // принимаем команды
         read_line();
     }
