@@ -1,3 +1,6 @@
+#include "api.h"
+
+
 // обработчик команды: получает имя и аргументы
 typedef void (*api_callback_t)(const command_t *command);
 
