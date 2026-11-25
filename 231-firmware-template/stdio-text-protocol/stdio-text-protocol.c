@@ -1,9 +1,15 @@
 const command_t *stdio_text_protocol_handle(void)
 {
+    //буфер строки
+    #define LINE_SIZE 32
+    char line[LINE_SIZE];
+    uint line_length = 0;
+
     // 1 читаем символ без ожидания; нет символа — возвращаем NULL
     // ~ getchar_timeout_us(0)
     int c = getchar_timeout_us(0);
-    if (c == PICO_ERROR_TIMEOUT) {
+    if (c == PICO_ERROR_TIMEOUT) 
+    {
         return NULL;
     }
     else {
@@ -20,7 +26,10 @@ const command_t *stdio_text_protocol_handle(void)
 
     
     // 4 Backspace (0x08 или 0x7f): убираем последний символ и стираем его на экране "\b \b"
-
+   if (symbol == '0x08' || symbol == '0x7F')
+    {
+        
+    }
     // 5  печатный символ: кладём в буфер и повторяем в терминал;
     // 6 буфер полон — помечаем строку как переполненную
 
@@ -32,7 +41,7 @@ const command_t *stdio_text_protocol_handle(void)
 
 
 
-
+//Из маин
 //функция: сбор строки из символов
 void read_line(void)
 {
