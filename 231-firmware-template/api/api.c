@@ -132,20 +132,51 @@ void api_handle(const command_t *command)
 
 
 
-void handle_command(const char *command)
+//Разбор числового аргумента = т2.3.8
+// Число без знака из десятичной записи. false — в записи не только цифры
+// или число не помещается в uint32_t.
+static bool parse_u32(const char *text, uint32_t *value)
 {
-    for (uint i = 0; i < command_count; i++)
+    // strtoul приняла бы и знак: из "-1" получилось бы 4294967295
+    if (!isdigit((unsigned char)text[0]))
     {
-        if (strcmp(command, commands[i].name) == 0)
-        {
-            if (commands[i].handler != NULL) //важно! Что бы не было: ядро передаст управление в начало Boot ROM (адрес )
-            {
-                commands[i].handler();//- вызов по указателю: скобки после указателя означают «передать управление по этому адресу». 
-            }
-
-            return;
-        }
+        return false;
     }
 
-    LOG_ERR("unknown command: %s\n", command);
+    char *end;
+    errno = 0;
+    unsigned long number = strtoul(text, &end, 10);
+
+    // после числа остались символы или число не поместилось
+    if (*end != '\0' || errno == ERANGE || number > UINT32_MAX)
+    {
+        return false;
+    }
+
+    *value = (uint32_t)number;
+    return true;
 }
+static void cmd_led_period(const command_t *command)
+{
+    uint32_t period_ms;
+
+    if (command->argc != 1 || !parse_u32(command->argv[0], &period_ms))
+    {
+        printf("error: usage led_period <period_ms>\n");
+        return;
+    }
+
+    // годится ли такой период, решает задача светодиода
+    if (!led_task_set_period_ms(period_ms))
+    {
+        printf("error: period_ms must be greater than 0\n");
+        return;
+    }
+
+    // ответ: состояние и период светодиода
+    print_led_state();
+}
+
+
+
+
